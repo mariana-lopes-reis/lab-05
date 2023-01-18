@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <style type="text/css">       
+            *{
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+                font-family: "Poppins", sans-serif;
+            }
+
+            .container {
+                width: 100%;
+                height: 100vh;
+                justify-content: center;
+                align-items: center;
+                display: flex;
+            }
+
+            .main,
+            .generate-voucher {
+                display: flex;
+                justify-content: space-between;
+                padding: 0 10px;
+                align-items: center;
+            }
+
+            .card {
+                width: 400px;
+                height: 180px;
+                border-radius: 5px;
+                box-shadow: 0 4px 6px 0 rgba(0, 0, 0, 0.2);
+                background-color: #fff;
+                padding: 10px 10px;
+                position: relative;
+            }
+
+            .card::after {
+                position: absolute;
+                content: "";
+                height: 40px;
+                right: -20px;
+                border-radius: 40px;
+                z-index: 1;
+                top: 70px;
+                background-color: #dc143c;
+                width: 40px;
+            }
+
+            .card::before {
+                position: absolute;
+                content: "";
+                height: 40px;
+                left: -20px;
+                border-radius: 40px;
+                z-index: 1;
+                top: 70px;
+                background-color: #dc143c;
+                width: 40px;
+            }
+
+            .co-img img {
+                width: 100px;
+                height: 60px;
+            }
+
+            .vertical {
+                border-left: 5px dotted black;
+                height: 100px;
+                position: absolute;
+                left: 40%;
+            }
+
+            .content h1 {
+                font-size: 35px;
+                margin-left: -20px;
+                color: #565656;
+            }
+
+            .content h1 span {
+                font-size: 18px;
+            }
+
+            .content h2 {
+                font-size: 18px;
+                margin-left: -20px;
+                color: #5655;
+                text-transform: uppercase;
+            }
+
+            .content p {
+                font-size: 16px;
+                color: #696969;
+                margin-left: -20px;
+            }
+
+            .generate-voucher {
+                margin: 12px 0 -5px 0;
+                height: 45px;
+                border-radius: 4px;
+                padding: 0 5px;
+                border: 1px solid #e1e1e1;
+            }
+
+            .generate-voucher input {
+                width: 100%;
+                height: 100%;
+                border: none;
+                outline: none;
+                font-size: 15px;
+            }
+
+            .generate-voucher button {
+                padding: 5px 20px;
+                background-color: #dc143c;
+                color: #fff;
+                border: 1px solid transparent;
+            }
+
+            .buy{
+                position: absolute;
+                content: "";
+                bottom: 20px;
+                left: 20px;
+                background-color: #dc143c;
+            }
+        </style>
+        <script
+            src="https://code.jquery.com/jquery-3.6.1.slim.min.js"
+            integrity="sha256-w8CvhFs7iHNVUtnSP0YKEg00p9Ih13rlL9zGqvLdePA="
+            crossorigin="anonymous"
+        ></script>
+        <script>
+            function generateRandomNumber(minimum, maximum) {
+                return Math.floor(Math.random() * (maximum - minimum + 1) + minimum)
+            }
+
+            function generateVoucher() {
+
+                // lista dos caracteres disponíveis
+                const upperCaseCharacters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+                const lowerCaseCharacters = 'abcdefghijklmnopqrstuvwxyz';
+                const numbers = '0123456789';
+
+                // caracters escolhidos até ao momento
+                let totalUpperCaseCharacters = 0;
+                let totalLowerCaseCharacters = 0;
+                let totalNumbers = 0;
+
+                // voucher
+                let voucher = '';
+
+                // escolher 9 caracters para o voucher
+                for (let i=0; i<9; i++) {
+
+                    let voucherCharacters = null;
+
+                    do {
+                        console.log('#####################################################');
+                        console.log('vamos escolher entre maiúsculas, minúsculas e números');
+                        console.log('#####################################################');
+
+                        // escolher entre maiúsculas, minúsculas e números
+                        const randomNumber = generateRandomNumber(0, 2);
+                        switch (randomNumber) {
+
+                            // maiúsculas
+                            case 0: {
+                                console.log('escolhemos maiúsculas');
+                                console.log('maiúsculas disponiveis', 4 - totalUpperCaseCharacters);
+
+                                if (totalUpperCaseCharacters < 4) {
+                                    voucherCharacters = upperCaseCharacters;
+                                    totalUpperCaseCharacters = totalUpperCaseCharacters + 1;
+                                }
+
+                                console.log('maiúsculas restantes', 4 - totalUpperCaseCharacters);
+                                break;
+                            }
+
+                            // minúsculas
+                            case 1: {
+                                console.log('escolhemos minúsculas');
+                                console.log('minúsculas disponiveis', 3 - totalLowerCaseCharacters);
+
+                                if (totalLowerCaseCharacters < 3) {
+                                    voucherCharacters = lowerCaseCharacters;
+                                    totalLowerCaseCharacters = totalLowerCaseCharacters + 1;
+                                }
+
+                                console.log('minúsculas restantes', 3 - totalLowerCaseCharacters);
+                                break;
+                            }
+
+                            // números
+                            case 2: {
+                                console.log('escolhemos números');
+                                console.log('números disponiveis', 2 - totalNumbers);
+
+                                if (totalNumbers < 2) {
+                                    voucherCharacters = numbers;
+                                    totalNumbers = totalNumbers + 1;
+                                }
+
+                                console.log('números restantes', 2 - totalNumbers);
+                                break;
+                            }
+                        }
+
+                        // se chegarmos ao fim, sem caracters, tentamos novamente
+                        if (voucherCharacters === null) {
+                            console.log('não conseguimos escolher, vamos tentar novamente');
+                        }
+
+                    } while(voucherCharacters === null);
+
+                    console.log('#####################################################');
+                    console.log('escolhemos os seguintes caracters:', voucherCharacters);
+                    console.log('#####################################################');
+
+                    // escolher um caracter aleatório entre os disponíveis
+                    const voucherCharactersLength = voucherCharacters.length;
+                    const voucherCharactersIndex = generateRandomNumber(0, voucherCharactersLength - 1);
+
+                    voucher = voucher + voucherCharacters[voucherCharactersIndex];
+                }
+
+                // mostrar o voucher no ecrã
+                const generateVoucherInput = $("#generateVoucherInput");
+                generateVoucherInput.val(voucher);
+
+                // cores
+                const red = generateRandomNumber(0, 255);
+                const green = generateRandomNumber(0, 255);
+                const blue = generateRandomNumber(0, 255);
+
+                // mudar a cor do ecrã
+                const body = $("body");
+                body.css('background-color', `rgb(${red},${green},${blue})`);
+
+                $('head').append(`<style>.card::after,.card::before { background-color: rgb(${red},${green},${blue}) }</style>`);
+            }
+        </script>
+    </head>
+    <body style="background-color:#dc143c;">
+        <div class="container">
+            <div class="card">
+                <div class="main">
+                    <div class="co-img">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4d/NOS_Portugal_logo.svg/1200px-NOS_Portugal_logo.svg.png"/>
+                    </div>
+                    <div class="vertical">
+                    </div>
+                    <div class="content">
+                        <h2>NOS</h2>
+                        <h1>50%<span>Voucher</span></h1>
+                        <p>Válido até 31 Janeiro de 2023</p>
+                    </div>
+                </div>
+                <div class="generate-voucher">
+                    <input id="generateVoucherInput" type="text" readonly/>
+                    <button id="generateVoucherButton" onclick="generateVoucher()">GERAR CÓDIGO</button>
+                </div>
+            </div>
+        </div>
+        <div class="buy">
+        </div>
+    </body>
+
+
+
+</html>
+
+
